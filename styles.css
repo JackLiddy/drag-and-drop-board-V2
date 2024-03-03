@@ -1,0 +1,380 @@
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: #181818;
+} 
+
+.activity-frame {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  height: 100%;
+  /* color: #fff; */
+  background-color: #181818;
+  /* border */
+  align-items: center;
+}
+
+.activity-header {
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: space-between; */
+  /* width: 100%; */
+  /* padding: 20px; */
+  background-color: white;
+}
+
+.header {
+  /* position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background: white;
+  z-index: 100; */
+  background-color: white;
+  border-color: #854abe;
+  border-width: 10px;
+  border-radius: 10px;
+  height: 150px;
+  width: 98%;
+
+
+  /* header should be sticky such that it is always at the top */
+  /* position: sticky; */
+  /* position: fixed; */
+  top: 0;
+  z-index: 100;
+
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+
+
+  /* thick border */
+  border-color: #854abe;
+  border-width: 3px;
+  border-radius: 10px;
+  border-style: solid;
+}
+.header-text {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  justify-content: flex-start;
+  /* margin-left: 22px; */
+  /* margin-right: 12px; */
+  /* gap: 10px; */
+  /* position: relative;
+  top: 50px; */
+  /* width: 90%;
+  border-color: purple;
+  border-style: solid;
+  border-width: 1.5px; */
+  font-size: 16px;
+  /* use font inter */
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+.header-text h3 {
+  font-size: 24px;
+  color: black;
+  font-weight: bold;
+  margin: 2px;
+}
+
+/* Media query for smaller text */
+@media (max-width: 768px) {
+  .header-text {
+    font-size: 14px;
+  }
+  .header-text h3 {
+    font-size: 20px;
+  }
+  .note
+  {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+
+
+.header-image {
+  /* position: relative;
+  top: 50px; */
+  /* width: 90%;
+  border-color: purple;
+  border-style: solid;
+  border-width: 1.5px; */
+  width: 120px;
+}
+
+.activity-body-container{
+  border-color: #854abe;
+  /* solid border */
+  border: 2px solid #854abe;
+  border-radius: 0px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  height: 100%;
+  width: 95%; 
+  /* padding: 20px; */
+  /* margin: 20px; */
+
+}
+
+
+.activity-body {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-content: center; */
+  /* height: 100%; */
+  /* color: #fff; */
+  /* background-color: #181818; */
+}
+
+
+.carousel-container {
+  position: relative;
+  /* max-width: 100%; */
+  /* min-width: 100%; */
+  width: 95%;
+  margin: auto;
+  margin-top: 15px;
+  overflow: hidden;
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+}
+
+.carousel-track-container {
+  flex: 1;
+  overflow: hidden;
+  background-color: #2E2C2D;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.carousel-track {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  transition: transform 250ms ease-in-out;
+  height: 100px;
+}
+
+.carousel-slide {
+  min-width: 25%; /* Show 4 slides at a time */
+  transition: transform 250ms ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  /* width: 100px; */
+  /* padding-top: 50px; */
+}
+
+.note {
+  cursor: grab; /* Change to 'grab' to indicate draggability */
+  position: absolute; /* Absolute position within the relative parent */
+  background-color: #FFF06D;
+  padding: 10px;
+  transform: rotate(-2deg); /* Rotate slightly for effect */
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  width: 100px; /* Fixed size for the whiteboard */
+  height: 100px; /* Fixed size for the whiteboard */
+  z-index: 100; /* Ensure it's above other elements */
+  
+  /* set the font to indie flower */
+  font-family: 'Indie Flower', cursive;
+
+}
+
+.note-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: auto;
+  text-align: center;
+  word-wrap: break-word;
+  padding: 5px;
+  cursor: inherit; /* Ensure the cursor style of .note is inherited */
+
+}
+
+.carousel-button {
+  background: none;
+  border: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2em;
+  cursor: pointer;
+  z-index: 2;
+  background-color: #907b9ac2;
+  height: 97%;
+  border-radius: 5px;
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+
+/* Optional: Add responsiveness */
+/* Show 2 slides at a time on smaller screens */
+/* Adjust padding-top to maintain the square ratio */
+/* @media (max-width: 768px) {
+  .carousel-slide {
+    min-width: 50%; 
+    padding-top: calc(50% - 20px);
+  }
+} */
+
+
+/* Use the locally stored whiteboard-bg.jpg as background */
+/* have the background image resize to fit */
+.whiteboard {
+  position: relative; /* Added to define a new positioning context */
+  background-color: #fff;
+  /* border: 2px dashed #ccc; */
+  min-height: 300px; /* You can set this to the height you prefer */
+  margin: 20px;
+  padding: 10px; /* Give some space for dropping */
+  aspect-ratio: 1/1;
+  display: flex;
+
+  background-image: url('whiteboard-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+}
+.button-row button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
+  background-color: #DD8B3C;
+  border: none;
+  border-radius: 3px;
+  width: 40%;
+}
+/* hover */
+.button-row button:hover {
+  background-color: #ae6d30;
+}
+
+
+/* Phase 2 */
+
+.activity-body-phase2 {
+  /* display: none; */
+  display: flex;
+  flex-direction: column;
+}
+#phase2 {
+  display: none;
+}
+
+.phase2-body-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #181818;
+  color: #fff;
+}
+
+.phase2-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  background-color: #181818;
+  color: #fff;
+}
+
+.phase2-right {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-content: center; */
+  width: 70%;
+  background-color: #181818;
+  color: #fff;
+}
+
+#phase2-sticky-notes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #181818;
+  color: #fff;
+  gap: 10px;
+}
+
+.vertical-note {
+  cursor: grab; /* Change to 'grab' to indicate draggability */
+  position: static; /* Absolute position within the relative parent */
+  background-color: #FFF06D;
+  padding: 10px;
+  transform: rotate(-2deg); /* Rotate slightly for effect */
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  width: 100px; /* Fixed size for the whiteboard */
+  height: 100px; /* Fixed size for the whiteboard */
+  z-index: 100; /* Ensure it's above other elements */
+  
+  /* set the font to indie flower */
+  font-family: 'Indie Flower', cursive;
+  color: #181818;
+
+}
+
+#note-preview{
+  cursor: grab; /* Change to 'grab' to indicate draggability */
+  position: static; /* Absolute position within the relative parent */
+  background-color: #FFF06D;
+  padding: 10px;
+  transform: rotate(-2deg); /* Rotate slightly for effect */
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  width: 100px; /* Fixed size for the whiteboard */
+  height: 100px; /* Fixed size for the whiteboard */
+  z-index: 100; /* Ensure it's above other elements */
+  
+  /* set the font to indie flower */
+  font-family: 'Indie Flower', cursive;
+  color: #181818;
+  align-self: center;
+}
+/* class for selected notes*/
+.vertical-note.selected {
+  /* add solid purple border */
+  border: 5px solid #854abe;
+}
