@@ -1,244 +1,231 @@
 // Global Vars
 const noteContents = [
-  "Missed mistakes",
-  "Reporting results",
-  "Designing experiments",
-  "Hard to reproduce analyses",
-  "Hard to find files",
-  "Data loss and corruption",
-  "Deviating from lab protocols",
-  "Difficulty onboarding + offboarding"
+    "Missed mistakes",
+    "Reporting results",
+    "Designing experiments",
+    "Hard to reproduce analyses",
+    "Hard to find files",
+    "Data loss and corruption",
+    "Deviating from lab protocols",
+    "Difficulty onboarding + offboarding",
 ];
 
 // Data structure to store note scores and text
 let noteScores = {
-  "Missed mistakes": { impact: 0, interest: 0 },
-  "Reporting results": { impact: 0, interest: 0 },
-  "Designing experiments": { impact: 0, interest: 0 },
-  "Hard to reproduce analyses": { impact: 0, interest: 0 },
-  "Hard to find files": { impact: 0, interest: 0 },
-  "Data loss and corruption": { impact: 0, interest: 0 },
-  "Deviating from lab protocols": { impact: 0, interest: 0 },
-  "Difficulty onboarding + offboarding": {
-      impact: 0,
-      interest: 0,
-  },
+    "Missed mistakes": { impact: 0, interest: 0 },
+    "Reporting results": { impact: 0, interest: 0 },
+    "Designing experiments": { impact: 0, interest: 0 },
+    "Hard to reproduce analyses": { impact: 0, interest: 0 },
+    "Hard to find files": { impact: 0, interest: 0 },
+    "Data loss and corruption": { impact: 0, interest: 0 },
+    "Deviating from lab protocols": { impact: 0, interest: 0 },
+    "Difficulty onboarding + offboarding": {
+        impact: 0,
+        interest: 0,
+    },
 };
 
 // empty array to store note scores
 let noteScoresArray = [];
 
-
-// Test session ID 
+// Test session ID
 let currentSessionID = "543";
 
-
 // Populate the carousel with notes
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
+    const carouselTrack = document.querySelector(".carousel-track");
 
-  const carouselTrack = document.querySelector(".carousel-track");
+    noteContents.forEach((content) => {
+        // Create the list item for the slide
+        const li = document.createElement("li");
+        li.className = "carousel-slide";
 
-  noteContents.forEach(content => {
-    // Create the list item for the slide
-    const li = document.createElement('li');
-    li.className = 'carousel-slide';
+        // Create the note container
+        const note = document.createElement("div");
+        note.className = "note carousel-note";
+        note.setAttribute("draggable", true);
 
-    // Create the note container
-    const note = document.createElement('div');
-    note.className = 'note carousel-note';
-    note.setAttribute('draggable', true);
+        // Create the note content container
+        const noteContent = document.createElement("div");
+        noteContent.className = "note-content";
+        noteContent.textContent = content;
 
-    // Create the note content container
-    const noteContent = document.createElement('div');
-    noteContent.className = 'note-content';
-    noteContent.textContent = content;
+        // Nest the elements correctly
+        note.appendChild(noteContent);
+        li.appendChild(note);
+        carouselTrack.appendChild(li);
+    });
 
-    // Nest the elements correctly
-    note.appendChild(noteContent);
-    li.appendChild(note);
-    carouselTrack.appendChild(li);
-  });
-
-  slides = document.querySelectorAll(".carousel-slide");
-  totalSlides = slides.length;
+    slides = document.querySelectorAll(".carousel-slide");
+    totalSlides = slides.length;
 });
-
-
 
 let slideIndex = 0;
 let slides = document.querySelectorAll(".carousel-slide");
 let totalSlides = slides.length;
 
 function moveSlide(step) {
-  slideIndex = (slideIndex + step + totalSlides) % totalSlides;
-  const track = document.querySelector(".carousel-track");
-  const slideWidth = slides[0].getBoundingClientRect().width;
-  track.style.transform = 'translateX(-' + slideIndex * slideWidth + 'px)';
+    slideIndex = (slideIndex + step + totalSlides) % totalSlides;
+    const track = document.querySelector(".carousel-track");
+    const slideWidth = slides[0].getBoundingClientRect().width;
+    track.style.transform = "translateX(-" + slideIndex * slideWidth + "px)";
 }
-
 
 // Drag and Drop logic
 
-document.addEventListener('DOMContentLoaded', (event) => {
-  let dragged = null;
-  let offsetX = 0;
-  let offsetY = 0;
+document.addEventListener("DOMContentLoaded", (event) => {
+    let dragged = null;
+    let offsetX = 0;
+    let offsetY = 0;
 
-  document.querySelectorAll('.carousel-note').forEach((note) => {
-    note.addEventListener('dragstart', function(e) {
-      dragged = this;
-      offsetX = e.clientX - dragged.getBoundingClientRect().left;
-      offsetY = e.clientY - dragged.getBoundingClientRect().top;
-      e.dataTransfer.setData('text', ''); // DataTransfer object requires setting some data.
-      e.dataTransfer.effectAllowed = 'move';
+    document.querySelectorAll(".carousel-note").forEach((note) => {
+        note.addEventListener("dragstart", function (e) {
+            dragged = this;
+            offsetX = e.clientX - dragged.getBoundingClientRect().left;
+            offsetY = e.clientY - dragged.getBoundingClientRect().top;
+            e.dataTransfer.setData("text", ""); // DataTransfer object requires setting some data.
+            e.dataTransfer.effectAllowed = "move";
+        });
     });
-  });
 
-  const whiteboard = document.querySelector('.whiteboard');
-  whiteboard.addEventListener('dragover', function(e) {
-    e.preventDefault(); // Necessary to allow dropping
-    e.dataTransfer.dropEffect = 'move';
-  });
+    const whiteboard = document.querySelector(".whiteboard");
+    whiteboard.addEventListener("dragover", function (e) {
+        e.preventDefault(); // Necessary to allow dropping
+        e.dataTransfer.dropEffect = "move";
+    });
 
-  whiteboard.addEventListener('drop', function(e) {
-    e.preventDefault();
-    if (dragged) {
-      const whiteboardRect = whiteboard.getBoundingClientRect();
-      // Calculate the position to place the note within the whiteboard
-      const x = e.clientX - whiteboardRect.left - offsetX;
-      const y = e.clientY - whiteboardRect.top - offsetY;
+    whiteboard.addEventListener("drop", function (e) {
+        e.preventDefault();
+        if (dragged) {
+            const whiteboardRect = whiteboard.getBoundingClientRect();
+            // Calculate the position to place the note within the whiteboard
+            const x = e.clientX - whiteboardRect.left - offsetX;
+            const y = e.clientY - whiteboardRect.top - offsetY;
 
-      const xPercent = (x / whiteboardRect.width) * 100;
-      const yPercent = (y / whiteboardRect.height) * 100;
+            const xPercent = (x / whiteboardRect.width) * 100;
+            const yPercent = (y / whiteboardRect.height) * 100;
 
-      // Clone the note, set the cloned note's position, and append it to the whiteboard
-      const noteClone = dragged.cloneNode(true);
-      noteClone.classList.remove('carousel-note');
+            // Clone the note, set the cloned note's position, and append it to the whiteboard
+            const noteClone = dragged.cloneNode(true);
+            noteClone.classList.remove("carousel-note");
 
-      // Ensyre the note scales with the whiteboard
-      // noteClone.style.width = '10%';
-      // noteClone.style.height = '10%';
+            // Ensyre the note scales with the whiteboard
+            // noteClone.style.width = '10%';
+            // noteClone.style.height = '10%';
 
-      // Ensure note content scales with the note
-      // noteClone.querySelector('.note-content').style.width = '100%';
-      // Ensure the font size scales with the note
-      // noteClone.querySelector('.note-content').style.fontSize = '1rem';
+            // Ensure note content scales with the note
+            // noteClone.querySelector('.note-content').style.width = '100%';
+            // Ensure the font size scales with the note
+            // noteClone.querySelector('.note-content').style.fontSize = '1rem';
 
+            noteClone.style.left = `${xPercent}%`;
+            noteClone.style.top = `${yPercent}%`;
 
+            console.log("x:", x, "y:", y);
+            console.log("xPercent:", xPercent, "yPercent:", yPercent);
 
-      noteClone.style.left = `${xPercent}%`;
-      noteClone.style.top = `${yPercent}%`;
+            // Normalize the values to the range of -10 to 10
+            const xValue = (x / whiteboardRect.width) * 20 - 10;
+            const yValue = ((y / whiteboardRect.height) * 20 - 10) * -1;
+            console.log("xValue:", xValue, "yValue:", yValue);
 
-      console.log('x:', x, 'y:', y);
-      console.log('xPercent:', xPercent, 'yPercent:', yPercent);
+            // Update the scores in our noteScores data structure
+            const noteText =
+                noteClone.querySelector(".note-content").textContent;
+            noteScores[noteText].impact = xValue;
+            noteScores[noteText].interest = yValue;
 
-      // Normalize the values to the range of -10 to 10
-      const xValue = ((x / whiteboardRect.width) * 20) - 10;
-      const yValue = (((y / whiteboardRect.height) * 20) - 10) * -1;
-      console.log('xValue:', xValue, 'yValue:', yValue);
+            whiteboard.appendChild(noteClone);
+            noteClone.addEventListener("dragstart", handleDragStartWithinBoard);
 
-      // Update the scores in our noteScores data structure
-      const noteText = noteClone.querySelector('.note-content').textContent;
-      noteScores[noteText].impact = xValue;
-      noteScores[noteText].interest = yValue;
-
-      whiteboard.appendChild(noteClone);
-      noteClone.addEventListener('dragstart', handleDragStartWithinBoard);
-
-      dragged.remove(); // Remove the note from the carousel
-      slides = document.querySelectorAll(".carousel-slide"); // Re-select slides
-      updateCarousel(); // Adjust carousel for the missing space
-    }
-  });
-
-  function handleDragStartWithinBoard(e) {
-    dragged = this;
-    offsetX = e.clientX - dragged.getBoundingClientRect().left;
-    offsetY = e.clientY - dragged.getBoundingClientRect().top;
-    e.dataTransfer.setData('text', '');
-    e.dataTransfer.effectAllowed = 'move';
-  }
-
-  // Update carousel slides
-  function updateCarousel() {
-    // This assumes the width of each slide is fixed and known.
-    // Recalculate the slideIndex based on remaining slides
-    slideIndex = Math.max(0, Math.min(slideIndex, slides.length - 1));
-  
-    // Remove the empty slides that no longer have notes
-    slides.forEach((slide, index) => {
-      if (slide.children.length === 0) {
-        slide.remove();
-        if (index < slideIndex) {
-          slideIndex--;
+            dragged.remove(); // Remove the note from the carousel
+            slides = document.querySelectorAll(".carousel-slide"); // Re-select slides
+            updateCarousel(); // Adjust carousel for the missing space
         }
-      }
     });
 
-  }
+    function handleDragStartWithinBoard(e) {
+        dragged = this;
+        offsetX = e.clientX - dragged.getBoundingClientRect().left;
+        offsetY = e.clientY - dragged.getBoundingClientRect().top;
+        e.dataTransfer.setData("text", "");
+        e.dataTransfer.effectAllowed = "move";
+    }
+
+    // Update carousel slides
+    function updateCarousel() {
+        // This assumes the width of each slide is fixed and known.
+        // Recalculate the slideIndex based on remaining slides
+        slideIndex = Math.max(0, Math.min(slideIndex, slides.length - 1));
+
+        // Remove the empty slides that no longer have notes
+        slides.forEach((slide, index) => {
+            if (slide.children.length === 0) {
+                slide.remove();
+                if (index < slideIndex) {
+                    slideIndex--;
+                }
+            }
+        });
+    }
 });
 
-
-
 function handleNextBtn(phase) {
-  if (phase === 1) {
+    if (phase === 1) {
+        // Submit the note scores to the server
+        console.log("noteScores:", noteScores);
 
+        // Submit note scores to the server
 
-    // Submit the note scores to the server
-    console.log('noteScores:', noteScores);
+        let entryID = Math.floor(Math.random() * 1000000) + 1;
+        const jsonScores = JSON.stringify(noteScores);
+        let url =
+            "https://api.sheety.co/f86a219e4c66ae9bacf55c87219398c1/activeSessions1/userSubmissions";
+        let body = {
+            usersubmission: {
+                sessionId: currentSessionID,
+                entryId: entryID,
+                noteScores: jsonScores,
+                date: new Date().toLocaleString(),
+            },
+        };
 
-    // Submit note scores to the server
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((json) => {
+                // Update the div with the new sessionId
+                console.log("response: ", json);
+                console.log("Continue to results");
 
-    let entryID = Math.floor(Math.random() * 1000000) + 1;
-    const jsonScores = JSON.stringify(noteScores);
-    let url =
-    "https://api.sheety.co/f86a219e4c66ae9bacf55c87219398c1/activeSessions1/userSubmissions";
-let body = {
-    usersubmission: {
-        sessionId: currentSessionID,
-        entryId: entryID,
-        noteScores: jsonScores,
-        date: new Date().toLocaleString(),
-    },
-};
+                // Redirect to results page
+                // window.location.href = `https://jackliddy.github.io/R2R-activity-1-3/results.html?sessionId=${currentSessionID}`;
+                // window.location.href = `http://127.0.0.1:5501/R2R-activity-1-3%20V2/results.html?sessionId=${currentSessionID}`;
+            })
+            .then(() => {
+                // Fetch the note scores from the server
+                fetchNoteScores(currentSessionID);
+            })
+            .catch((error) => {
+                console.log(error);
+                alert("There was an error submitting your answer.");
+            });
 
-fetch(url, {
-    method: "POST",
-    body: JSON.stringify(body),
-    headers: {
-        "Content-Type": "application/json",
-    },
-})
-    .then((response) => response.json())
-    .then((json) => {
-        // Update the div with the new sessionId
-        console.log("response: ", json);
-        console.log("Continue to results");
+        // Based on the note data in noteContents, create a note for each item and append it to phase2-sticky-notes
+        // const phase2StickyNotes = document.getElementById("phase2-sticky-notes");
+        // noteContents.forEach(content => {
+        //   const note = document.createElement('div');
+        //   note.className = 'vertical-note';
+        //   note.textContent = content;
+        //   phase2StickyNotes.appendChild(note);
+        // });
 
-        // Redirect to results page
-        // window.location.href = `https://jackliddy.github.io/R2R-activity-1-3/results.html?sessionId=${currentSessionID}`;
-        // window.location.href = `http://127.0.0.1:5501/R2R-activity-1-3%20V2/results.html?sessionId=${currentSessionID}`;
-    })
-    .then(() => {
-        // Fetch the note scores from the server
-        fetchNoteScores(currentSessionID);
-    })
-    .catch((error) => {
-        console.log(error);
-        alert("There was an error submitting your answer.");
-    });
-
-
-    // Based on the note data in noteContents, create a note for each item and append it to phase2-sticky-notes
-    // const phase2StickyNotes = document.getElementById("phase2-sticky-notes");
-    // noteContents.forEach(content => {
-    //   const note = document.createElement('div');
-    //   note.className = 'vertical-note';
-    //   note.textContent = content;
-    //   phase2StickyNotes.appendChild(note);
-    // });
-
-    /*
+        /*
       re-create the previous snippet with requirements
       - Each note should be selectable by hover or click
       - Upon selection of one of these notes
@@ -246,378 +233,317 @@ fetch(url, {
         - The note should be highlighted purple
         - The note should be rendered on the whiteboard
     */
-    // const phase2StickyNotes = document.getElementById("phase2-sticky-notes");
-    // const notePreview = document.getElementById("note-preview");
-    // const whiteboard = document.querySelector('#phase2-whiteboard');
+        // const phase2StickyNotes = document.getElementById("phase2-sticky-notes");
+        // const notePreview = document.getElementById("note-preview");
+        // const whiteboard = document.querySelector('#phase2-whiteboard');
 
-    // noteContents.forEach(content => {
-    //   const note = document.createElement('div');
-    //   note.className = 'vertical-note';
-    //   note.textContent = content;
+        // noteContents.forEach(content => {
+        //   const note = document.createElement('div');
+        //   note.className = 'vertical-note';
+        //   note.textContent = content;
 
-    //   note.addEventListener('click', function() {
-    //     // Clear the note preview
-    //     notePreview.textContent = '';
+        //   note.addEventListener('click', function() {
+        //     // Clear the note preview
+        //     notePreview.textContent = '';
 
-    //     // Set the note preview to the clicked note
-    //     notePreview.textContent = content;
+        //     // Set the note preview to the clicked note
+        //     notePreview.textContent = content;
 
-    //     // Highlight the clicked note
-    //     const selectedNotes = document.querySelectorAll('.vertical-note.selected');
-    //     selectedNotes.forEach(note => note.classList.remove('selected'));
-    //     this.classList.add('selected');
+        //     // Highlight the clicked note
+        //     const selectedNotes = document.querySelectorAll('.vertical-note.selected');
+        //     selectedNotes.forEach(note => note.classList.remove('selected'));
+        //     this.classList.add('selected');
 
+        //     // Clear the whiteboard
+        //     whiteboard.innerHTML = '';
 
-    //     // Clear the whiteboard
-    //     whiteboard.innerHTML = '';
+        //     // Render the note on the whiteboard
+        //     const noteClone = this.cloneNode(true);
+        //     noteClone.classList.remove('vertical-note');
+        //     noteClone.classList.add('whiteboard-note');
+        //     noteClone.style.left = '50%';
+        //     noteClone.style.top = '50%';
+        //     whiteboard.appendChild(noteClone);
+        //     // noteClone.addEventListener('dragstart', handleDragStartWithinBoard);
+        //   });
 
-    //     // Render the note on the whiteboard
-    //     const noteClone = this.cloneNode(true);
-    //     noteClone.classList.remove('vertical-note');
-    //     noteClone.classList.add('whiteboard-note');
-    //     noteClone.style.left = '50%';
-    //     noteClone.style.top = '50%';
-    //     whiteboard.appendChild(noteClone);
-    //     // noteClone.addEventListener('dragstart', handleDragStartWithinBoard);
-    //   });
+        //   phase2StickyNotes.appendChild(note);
+        // }
+        // );
 
-    //   phase2StickyNotes.appendChild(note);
+        // Hide phase 1 and show phase 2
+        document.getElementById("phase1").style.display = "none";
+        document.getElementById("phase2").style.display = "block";
+    } else if (phase === 2) {
+        document.getElementById("phase2").style.display = "none";
+        document.getElementById("phase3").style.display = "block";
+
+        // Render sorted notes in phase3-sticky-notes as vertical notes
+        const phase3StickyNotes = document.getElementById(
+            "phase3-sticky-notes"
+        );
+        const wordList = document.querySelector("#word-list");
+        wordList.innerHTML = "";
+
+        noteContents.forEach((content) => {
+            const note = document.createElement("div");
+            note.className = "vertical-note";
+            note.textContent = content;
+
+            // Render the corresponding solutions in the resource pane
+            const solution = noteSolutions[content];
+            const span = document.createElement("span");
+            span.textContent = solution;
+            wordList.appendChild(span);
+
+            note.addEventListener("mouseenter", function () {
+                // Clear the note preview
+                // notePreview.textContent = '';
+
+                // Render the corresponding solutions in the resource pane
+                // Based on the selected note, get the resources from the notesWithResources object and display them in the resource pane
+                // Render the resource's topic in resource-topic and the resource's text in resource-text
+                const note = noteResources[this.textContent];
+
+                // Render the resource's content in resource-content
+                const resourceContent =
+                    document.getElementById("resource-content");
+                resourceContent.innerHTML = noteResources[this.textContent];
+
+                // Bolden the resource's solutions in the word list
+                const wordList = document.querySelector("#word-list");
+                // Clear all bolded words
+                wordList.querySelectorAll("span").forEach((span) => {
+                    span.classList.remove("bold");
+                });
+                // Bold the current resource's solutions
+                const solutions = noteSolutions[this.textContent];
+                solutions.split(" ").forEach((word) => {
+                    wordList.querySelectorAll("span").forEach((span) => {
+                        if (span.textContent === word) {
+                            span.classList.add("bold");
+                        }
+                    });
+                });
+
+                // Set the note preview to the clicked note
+                // notePreview.textContent = content;
+                console.log("Note clicked", content);
+
+                // Highlight the clicked note
+                const selectedNotes = document.querySelectorAll(
+                    ".vertical-note.selected"
+                );
+                selectedNotes.forEach((note) =>
+                    note.classList.remove("selected")
+                );
+                this.classList.add("selected");
+            });
+            phase3StickyNotes.appendChild(note);
+        });
+
+        // Set the note preview to the first note
+        // notePreview.textContent = noteContents[0];
+        // Highlight the first note
+        const firstNote = phase3StickyNotes.querySelector(".vertical-note");
+        firstNote.classList.add("selected");
+        // Trigger the click event on the first note
+        firstNote.click();
+        // Trigger hover event on the first note
+        // firstNote.onmouseenter(); // On mouse enter is not a function
+    }
+
+    // function renderNotePreview(note) {
+    //   const notePreview = document.getElementById("note-preview");
+    //   notePreview.textContent = note;
     // }
-    // );
-
-
-    // Hide phase 1 and show phase 2
-    document.getElementById("phase1").style.display = "none";
-    document.getElementById("phase2").style.display = "block";
-  } else if (phase === 2) {
-    document.getElementById("phase2").style.display = "none";
-    document.getElementById("phase3").style.display = "block";
-
-
-    // Render sorted notes in phase3-sticky-notes as vertical notes
-    const phase3StickyNotes = document.getElementById("phase3-sticky-notes");
-      const wordList = document.querySelector("#word-list");
-      wordList.innerHTML = "";
-
-
-    noteContents.forEach(content => {
-      const note = document.createElement('div');
-      note.className = 'vertical-note';
-      note.textContent = content;
-
-
-      // Render the corresponding solutions in the resource pane
-      const solution = noteSolutions[content];
-      const span = document.createElement("span");
-      span.textContent = solution;
-      wordList.appendChild(span);
-
-
-      note.addEventListener('mouseenter', function() {
-        // Clear the note preview
-        // notePreview.textContent = '';
-
-        // Render the corresponding solutions in the resource pane
-                                        // Based on the selected note, get the resources from the notesWithResources object and display them in the resource pane
-                                        // Render the resource's topic in resource-topic and the resource's text in resource-text
-                                        const note =
-                                            noteResources[this.textContent];
-
-                                        // Render the resource's content in resource-content
-                                        const resourceContent =
-                                            document.getElementById(
-                                                "resource-content"
-                                            );
-                                        resourceContent.innerHTML =
-                                            noteResources[this.textContent];
-
-                                        // Bolden the resource's solutions in the word list
-                                        const wordList =
-                                            document.querySelector(
-                                                "#word-list"
-                                            );
-                                        // Clear all bolded words
-                                        wordList
-                                            .querySelectorAll("span")
-                                            .forEach((span) => {
-                                                span.classList.remove("bold");
-                                            });
-                                        // Bold the current resource's solutions
-                                        const solutions =
-                                            noteSolutions[this.textContent];
-                                        solutions.split(" ").forEach((word) => {
-                                            wordList
-                                                .querySelectorAll("span")
-                                                .forEach((span) => {
-                                                    if (
-                                                        span.textContent ===
-                                                        word
-                                                    ) {
-                                                        span.classList.add(
-                                                            "bold"
-                                                        );
-                                                    }
-                                                });
-                                        });
-
-        
-
-        // Set the note preview to the clicked note
-        // notePreview.textContent = content;
-        console.log("Note clicked", content);
-
-        // Highlight the clicked note
-        const selectedNotes = document.querySelectorAll('.vertical-note.selected');
-        selectedNotes.forEach(note => note.classList.remove('selected'));
-        this.classList.add('selected');
-
-      })
-      phase3StickyNotes.appendChild(note);
-
-    });
-
-    // Set the note preview to the first note
-    // notePreview.textContent = noteContents[0];
-    // Highlight the first note
-    const firstNote = phase3StickyNotes.querySelector('.vertical-note');
-    firstNote.classList.add('selected');
-    // Trigger the click event on the first note
-    firstNote.click();
-    // Trigger hover event on the first note
-    // firstNote.onmouseenter(); // On mouse enter is not a function
-    
-
-
-
-  }
-
-
-
-
-
-// function renderNotePreview(note) {
-//   const notePreview = document.getElementById("note-preview");
-//   notePreview.textContent = note;
-// }
-// function renderSessionNotes(notes) {
-//   const sessionNotes = document.getElementById("session-notes");
-//   notes.forEach(note => {
-//     const noteDiv = document.createElement('div');
-//     noteDiv.className = 'note';
-//     noteDiv.textContent = note;
-//     sessionNotes.appendChild(noteDiv);
-//   });
+    // function renderSessionNotes(notes) {
+    //   const sessionNotes = document.getElementById("session-notes");
+    //   notes.forEach(note => {
+    //     const noteDiv = document.createElement('div');
+    //     noteDiv.className = 'note';
+    //     noteDiv.textContent = note;
+    //     sessionNotes.appendChild(noteDiv);
+    //   });
 }
-
-// call handleNextBtn manually to populate phase 2
-// handleNextBtn(1);
 
 // Fetch the note scores from the server
 function fetchNoteScores(sessionId) {
-  let url = `https://api.sheety.co/f86a219e4c66ae9bacf55c87219398c1/activeSessions1/userSubmissions?filter[sessionId]=${currentSessionID}`;
+    let url = `https://api.sheety.co/f86a219e4c66ae9bacf55c87219398c1/activeSessions1/userSubmissions?filter[sessionId]=${currentSessionID}`;
 
-  // Fetch the user submissions from the API and calculate the median note scores
-  fetch(url)
-      .then((response) => response.json())
-      .then((json) => {
-          // If response is empty, display an error message
-          if (json.userSubmissions.length === 0) {
-              console.log("Session does not exist.");
-              // Display an error message
-          } else {
-              console.log("Session exists!");
+    // Fetch the user submissions from the API and calculate the median note scores
+    fetch(url)
+        .then((response) => response.json())
+        .then((json) => {
+            // If response is empty, display an error message
+            if (json.userSubmissions.length === 0) {
+                console.log("Session does not exist.");
+                // Display an error message
+            } else {
+                console.log("Session exists!");
 
-              console.log("Json response", json);
-              // console.log("Session exists!");
+                console.log("Json response", json);
+                // console.log("Session exists!");
 
-              // log all user submissions
-              console.log(
-                  "All user submissions",
-                  json.userSubmissions
-              );
+                // log all user submissions
+                console.log("All user submissions", json.userSubmissions);
 
-              // get the note scores from each user submission
-              console.log(
-                  "Note scores",
-                  json.userSubmissions[0].noteScores
-              );
+                // get the note scores from each user submission
+                console.log("Note scores", json.userSubmissions[0].noteScores);
 
-              // for each user submission in the array, get the note scores
-              json.userSubmissions.forEach((userSubmission) => {
-                  console.log(
-                      "Note scores",
-                      userSubmission.noteScores
-                  );
-              });
-
-              // for each user submission in the array, get the note scores and add them to some data structure. Convert the json string to a json object
-              // let noteScoresArray = [];
-              json.userSubmissions.forEach((userSubmission) => {
-                  console.log(
-                      "Note scores",
-                      userSubmission.noteScores
-                  );
-                  let noteScoresJson = JSON.parse(
-                      userSubmission.noteScores
-                  );
-                  noteScoresArray.push(noteScoresJson);
-              });
-              console.log("Note scores array", noteScoresArray);
-
-              // Create an object to store linear scores for each note
-              let linearScores = {};
-
-              // Calculate linear score for each note in each user submission and store them
-              noteScoresArray.forEach((noteScores) => {
-                  for (let note in noteScores) {
-                      if (!linearScores[note]) {
-                          linearScores[note] = [];
-                      }
-                      let impact = noteScores[note].impact;
-                      let interest = noteScores[note].interest;
-                      let linearScore = (impact + interest) / 2;
-                      linearScores[note].push(linearScore);
-                  }
-              });
-              console.log("Linear Scores:", linearScores);
-
-              // Calculate median linear score for each note
-              let medianScores = {};
-              for (let note in linearScores) {
-                  medianScores[note] = median(linearScores[note]);
-              }
-
-              console.log("Median Linear Scores:", medianScores);
-
-              // Now instead of calculating the median linear score for each note, calculate the average score for each note
-              let averageNoteScores = {};
-              for (let note in linearScores) {
-                  let sum = linearScores[note].reduce(
-                      (a, b) => a + b,
-                      0
-                  );
-                  let avg = sum / linearScores[note].length;
-                  averageNoteScores[note] = avg;
-              }
-              console.log(
-                  "Average Linear Scores:",
-                  averageNoteScores
-              );
-
-              // Sort notes based on median linear scores and render them
-              const sortedNotes = Object.entries(medianScores)
-                  .sort((a, b) => a[1] - b[1])
-                  .map((entry) => entry[0]);
-
-              console.log("sortedNotes", sortedNotes);
-
-            
-              // Render the notes in phase2-sticky-notes
-              const phase2StickyNotes = document.getElementById("phase2-sticky-notes");
-              const notePreview = document.getElementById("note-preview");
-              const whiteboard = document.querySelector('#phase2-whiteboard');
-              // const wordList = document.querySelector("#word-list");
-              // wordList.innerHTML = "";
-
-
-              sortedNotes.forEach(content => {
-                const note = document.createElement('div');
-                note.className = 'vertical-note';
-                note.textContent = content;
-
-
-                // // Render the corresponding solutions in the resource pane
-                // const solution = noteSolutions[content];
-                // const span = document.createElement("span");
-                // span.textContent = solution;
-                // wordList.appendChild(span);
-
-
-          
-                note.addEventListener('click', function() {
-                  // Clear the note preview
-                  notePreview.textContent = '';
-          
-                  // Set the note preview to the clicked note
-                  notePreview.textContent = content;
-          
-                  // Highlight the clicked note
-                  const selectedNotes = document.querySelectorAll('.vertical-note.selected');
-                  selectedNotes.forEach(note => note.classList.remove('selected'));
-                  this.classList.add('selected');
-          
-          
-                  // Clear the whiteboard
-                  whiteboard.innerHTML = '';
-          
-                  // Render the note on the whiteboard
-                  // const noteClone = this.cloneNode(true);
-                  // noteClone.classList.remove('vertical-note');
-                  // noteClone.classList.add('whiteboard-note');
-                  // noteClone.style.left = '50%';
-                  // noteClone.style.top = '50%';
-                  // whiteboard.appendChild(noteClone);
-
-                  // Based on the selected note, create a note for each entry in noteScoresArray and append it to phase2-whiteboard based on the note's impact and interest
-                  const noteScores = noteScoresArray.filter(note => note[content]);
-                  noteScores.forEach(noteScore => {
-                    const note = document.createElement('div');
-                    note.className = 'whiteboard-note';
-                    note.textContent = content;
-                    // note.style.left = `${50 + noteScore[content].impact * 5}%`;
-                    // note.style.top = `${50 + noteScore[content].interest * 5}%`;
-                    // Instead of the above, use the following to calculate the position based on the note's impact and interest
-
-                    // Calculate the position to place the note within the whiteboard 
-                    // interest of 10 should be at the top, interest of -10 should be at the bottom
-                    // impact of 10 should be at the right, impact of -10 should be at the left
-                    // These notes should be fixed to that region of the whiteboard, even when the whiteboard is resized
-                    const x = 50 + noteScore[content].impact * 5;
-                    const y = 50 + noteScore[content].interest * 5;
-                    note.style.left = `${x}%`;
-                    note.style.top = `${y}%`;
-
-
-
-                    whiteboard.appendChild(note);
-                  });
-
-
-                
+                // for each user submission in the array, get the note scores
+                json.userSubmissions.forEach((userSubmission) => {
+                    console.log("Note scores", userSubmission.noteScores);
                 });
-          
-                phase2StickyNotes.appendChild(note);
-              }
-              );
-              // Set the note preview to the first note
-              notePreview.textContent = sortedNotes[0];
-              // Highlight the first note
-              const firstNote = document.querySelector('.vertical-note');
-              firstNote.classList.add('selected');
 
-              // Trigger the click event on the first note
-              firstNote.click();
-              
+                // for each user submission in the array, get the note scores and add them to some data structure. Convert the json string to a json object
+                // let noteScoresArray = [];
+                json.userSubmissions.forEach((userSubmission) => {
+                    console.log("Note scores", userSubmission.noteScores);
+                    let noteScoresJson = JSON.parse(userSubmission.noteScores);
+                    noteScoresArray.push(noteScoresJson);
+                });
+                console.log("Note scores array", noteScoresArray);
 
+                // Create an object to store linear scores for each note
+                let linearScores = {};
 
-      }});}
+                // Calculate linear score for each note in each user submission and store them
+                noteScoresArray.forEach((noteScores) => {
+                    for (let note in noteScores) {
+                        if (!linearScores[note]) {
+                            linearScores[note] = [];
+                        }
+                        let impact = noteScores[note].impact;
+                        let interest = noteScores[note].interest;
+                        let linearScore = (impact + interest) / 2;
+                        linearScores[note].push(linearScore);
+                    }
+                });
+                console.log("Linear Scores:", linearScores);
 
+                // Calculate median linear score for each note
+                let medianScores = {};
+                for (let note in linearScores) {
+                    medianScores[note] = median(linearScores[note]);
+                }
 
-      function median(values) {
-        values.sort(function (a, b) {
-            return a - b;
+                console.log("Median Linear Scores:", medianScores);
+
+                // Now instead of calculating the median linear score for each note, calculate the average score for each note
+                let averageNoteScores = {};
+                for (let note in linearScores) {
+                    let sum = linearScores[note].reduce((a, b) => a + b, 0);
+                    let avg = sum / linearScores[note].length;
+                    averageNoteScores[note] = avg;
+                }
+                console.log("Average Linear Scores:", averageNoteScores);
+
+                // Sort notes based on median linear scores and render them
+                const sortedNotes = Object.entries(medianScores)
+                    .sort((a, b) => a[1] - b[1])
+                    .map((entry) => entry[0]);
+
+                console.log("sortedNotes", sortedNotes);
+
+                // Render the notes in phase2-sticky-notes
+                const phase2StickyNotes = document.getElementById(
+                    "phase2-sticky-notes"
+                );
+                const notePreview = document.getElementById("note-preview");
+                const whiteboard = document.querySelector("#phase2-whiteboard");
+                // const wordList = document.querySelector("#word-list");
+                // wordList.innerHTML = "";
+
+                sortedNotes.forEach((content) => {
+                    const note = document.createElement("div");
+                    note.className = "vertical-note";
+                    note.textContent = content;
+
+                    // // Render the corresponding solutions in the resource pane
+                    // const solution = noteSolutions[content];
+                    // const span = document.createElement("span");
+                    // span.textContent = solution;
+                    // wordList.appendChild(span);
+
+                    note.addEventListener("click", function () {
+                        // Clear the note preview
+                        notePreview.textContent = "";
+
+                        // Set the note preview to the clicked note
+                        notePreview.textContent = content;
+
+                        // Highlight the clicked note
+                        const selectedNotes = document.querySelectorAll(
+                            ".vertical-note.selected"
+                        );
+                        selectedNotes.forEach((note) =>
+                            note.classList.remove("selected")
+                        );
+                        this.classList.add("selected");
+
+                        // Clear the whiteboard
+                        whiteboard.innerHTML = "";
+
+                        // Render the note on the whiteboard
+                        // const noteClone = this.cloneNode(true);
+                        // noteClone.classList.remove('vertical-note');
+                        // noteClone.classList.add('whiteboard-note');
+                        // noteClone.style.left = '50%';
+                        // noteClone.style.top = '50%';
+                        // whiteboard.appendChild(noteClone);
+
+                        // Based on the selected note, create a note for each entry in noteScoresArray and append it to phase2-whiteboard based on the note's impact and interest
+                        const noteScores = noteScoresArray.filter(
+                            (note) => note[content]
+                        );
+                        noteScores.forEach((noteScore) => {
+                            const note = document.createElement("div");
+                            note.className = "whiteboard-note";
+                            note.textContent = content;
+                            // note.style.left = `${50 + noteScore[content].impact * 5}%`;
+                            // note.style.top = `${50 + noteScore[content].interest * 5}%`;
+                            // Instead of the above, use the following to calculate the position based on the note's impact and interest
+
+                            // Calculate the position to place the note within the whiteboard
+                            // interest of 10 should be at the top, interest of -10 should be at the bottom
+                            // impact of 10 should be at the right, impact of -10 should be at the left
+                            // These notes should be fixed to that region of the whiteboard, even when the whiteboard is resized
+                            const x = 50 + noteScore[content].impact * 5;
+                            const y = 50 + noteScore[content].interest * 5;
+                            note.style.left = `${x}%`;
+                            note.style.top = `${y}%`;
+
+                            whiteboard.appendChild(note);
+                        });
+                    });
+
+                    phase2StickyNotes.appendChild(note);
+                });
+                // Set the note preview to the first note
+                notePreview.textContent = sortedNotes[0];
+                // Highlight the first note
+                const firstNote = document.querySelector(".vertical-note");
+                firstNote.classList.add("selected");
+
+                // Trigger the click event on the first note
+                firstNote.click();
+            }
         });
+}
 
-        let half = Math.floor(values.length / 2);
+function median(values) {
+    values.sort(function (a, b) {
+        return a - b;
+    });
 
-        if (values.length % 2) return values[half];
-        else return (values[half - 1] + values[half]) / 2.0;
-    }
+    let half = Math.floor(values.length / 2);
 
+    if (values.length % 2) return values[half];
+    else return (values[half - 1] + values[half]) / 2.0;
+}
 
-
-
-  var noteResources = {
+var noteResources = {
     "Missed mistakes": `<div>
                 <h1>Missed mistakes</h1>
                 <p>We all make mistakes! Brainstorming with your lab colleagues about approaches to check and validate your lab’s work is a great way to make your work more rigorous.</p>
@@ -724,4 +650,5 @@ var noteSolutions = {
     "Difficulty onboarding + offboarding": "Documentation",
 };
 
-
+// call handleNextBtn manually to populate phase 2
+handleNextBtn(1);
