@@ -109,15 +109,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
             const noteClone = dragged.cloneNode(true);
             noteClone.classList.remove("carousel-note");
 
-            // Ensyre the note scales with the whiteboard
-            // noteClone.style.width = '10%';
-            // noteClone.style.height = '10%';
-
-            // Ensure note content scales with the note
-            // noteClone.querySelector('.note-content').style.width = '100%';
-            // Ensure the font size scales with the note
-            // noteClone.querySelector('.note-content').style.fontSize = '1rem';
-
             noteClone.style.left = `${xPercent}%`;
             noteClone.style.top = `${yPercent}%`;
 
@@ -216,61 +207,6 @@ function handleNextBtn(phase) {
                 alert("There was an error submitting your answer.");
             });
 
-        // Based on the note data in noteContents, create a note for each item and append it to phase2-sticky-notes
-        // const phase2StickyNotes = document.getElementById("phase2-sticky-notes");
-        // noteContents.forEach(content => {
-        //   const note = document.createElement('div');
-        //   note.className = 'vertical-note';
-        //   note.textContent = content;
-        //   phase2StickyNotes.appendChild(note);
-        // });
-
-        /*
-      re-create the previous snippet with requirements
-      - Each note should be selectable by hover or click
-      - Upon selection of one of these notes
-        - The note should be rendered in the note preview area
-        - The note should be highlighted purple
-        - The note should be rendered on the whiteboard
-    */
-        // const phase2StickyNotes = document.getElementById("phase2-sticky-notes");
-        // const notePreview = document.getElementById("note-preview");
-        // const whiteboard = document.querySelector('#phase2-whiteboard');
-
-        // noteContents.forEach(content => {
-        //   const note = document.createElement('div');
-        //   note.className = 'vertical-note';
-        //   note.textContent = content;
-
-        //   note.addEventListener('click', function() {
-        //     // Clear the note preview
-        //     notePreview.textContent = '';
-
-        //     // Set the note preview to the clicked note
-        //     notePreview.textContent = content;
-
-        //     // Highlight the clicked note
-        //     const selectedNotes = document.querySelectorAll('.vertical-note.selected');
-        //     selectedNotes.forEach(note => note.classList.remove('selected'));
-        //     this.classList.add('selected');
-
-        //     // Clear the whiteboard
-        //     whiteboard.innerHTML = '';
-
-        //     // Render the note on the whiteboard
-        //     const noteClone = this.cloneNode(true);
-        //     noteClone.classList.remove('vertical-note');
-        //     noteClone.classList.add('whiteboard-note');
-        //     noteClone.style.left = '50%';
-        //     noteClone.style.top = '50%';
-        //     whiteboard.appendChild(noteClone);
-        //     // noteClone.addEventListener('dragstart', handleDragStartWithinBoard);
-        //   });
-
-        //   phase2StickyNotes.appendChild(note);
-        // }
-        // );
-
         // Hide phase 1 and show phase 2
         document.getElementById("phase1").style.display = "none";
         document.getElementById("phase2").style.display = "block";
@@ -352,19 +288,6 @@ function handleNextBtn(phase) {
         // Trigger hover event on the first note
         // firstNote.onmouseenter(); // On mouse enter is not a function
     }
-
-    // function renderNotePreview(note) {
-    //   const notePreview = document.getElementById("note-preview");
-    //   notePreview.textContent = note;
-    // }
-    // function renderSessionNotes(notes) {
-    //   const sessionNotes = document.getElementById("session-notes");
-    //   notes.forEach(note => {
-    //     const noteDiv = document.createElement('div');
-    //     noteDiv.className = 'note';
-    //     noteDiv.textContent = note;
-    //     sessionNotes.appendChild(noteDiv);
-    //   });
 }
 
 // Fetch the note scores from the server
@@ -452,19 +375,11 @@ function fetchNoteScores(sessionId) {
                 );
                 const notePreview = document.getElementById("note-preview");
                 const whiteboard = document.querySelector("#phase2-whiteboard");
-                // const wordList = document.querySelector("#word-list");
-                // wordList.innerHTML = "";
 
                 sortedNotes.forEach((content) => {
                     const note = document.createElement("div");
                     note.className = "vertical-note";
                     note.textContent = content;
-
-                    // // Render the corresponding solutions in the resource pane
-                    // const solution = noteSolutions[content];
-                    // const span = document.createElement("span");
-                    // span.textContent = solution;
-                    // wordList.appendChild(span);
 
                     note.addEventListener("click", function () {
                         // Clear the note preview
