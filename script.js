@@ -164,7 +164,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
 function handleNextBtn(phase) {
     if (phase === 1) {
 
-        // TODO Verify that all notes have been placed on the whiteboard
+        // TODO: uncomment
+        // Verify that all notes have been placed on the whiteboard
+        // If not, display an error message and return
+        // const whiteboard = document.querySelector(".whiteboard");
+        // if (whiteboard.children.length < 8) {
+        //     alert("Please place all notes on the whiteboard.");
+        //     return;
+        // }
 
         // disable the next button
         document.getElementById("phase1-next").disabled = true;
@@ -218,6 +225,11 @@ function handleNextBtn(phase) {
         // document.getElementById("phase1").style.display = "none";
         // document.getElementById("phase2").style.display = "block";
     } else if (phase === 2) {
+      // Swap out header text
+      document.getElementById("phase2-header-text").style.display = "none";
+      document.getElementById("phase3-header-text").style.display = "block";
+
+      // Hide phase 2 and show phase 3
         document.getElementById("phase2").style.display = "none";
         document.getElementById("phase3").style.display = "block";
 
@@ -454,6 +466,10 @@ function fetchNoteScores(sessionId) {
 
         // Set the phase 1 loading spinner to invisible
         document.getElementById("phase1-loader").style.display = "none";
+
+              // Swap out header text
+      document.getElementById("phase1-header-text").style.display = "none";
+      document.getElementById("phase2-header-text").style.display = "block";
 
         // Hide phase 1 and show phase 2
         document.getElementById("phase1").style.display = "none";

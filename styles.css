@@ -60,6 +60,7 @@ html {
     border-width: 3px;
     border-radius: 10px;
     border-style: solid;
+    height: fit-content;
 }
 .header-text {
     display: flex;
@@ -75,21 +76,52 @@ html {
   border-color: purple;
   border-style: solid;
   border-width: 1.5px; */
-    font-size: 16px;
+    /* font-size: 16px; */
     /* use font inter */
     font-family: "Inter", sans-serif;
     font-weight: 400;
+    h3 { 
+      /* font-size: 24px; */
+      font-size: calc(8px + 2vw);
+      /* font-size: 1em; */
+      color: black;
+      font-weight: bold;
+      margin: 2px;
+    }
+    p {
+      /* font-size: 16px; */
+      /* font-size: 1.5vw; */
+      /* more accessible font size */
+      font-size: calc(8px + 1vw);
+      
+
+      color: black;
+      font-weight: 400;
+      margin: 2px;
+    }
 }
 
+#phase1-header-text{
+  display: block;
+}
+#phase2-header-text{
+  display: none;
+}
+#phase3-header-text{
+  display: none;
+}
+
+
+/* 
 .header-text h3 {
     font-size: 24px;
     color: black;
     font-weight: bold;
     margin: 2px;
-}
+} */
 
 /* Media query for smaller text */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .header-text {
         font-size: 14px;
     }
@@ -100,15 +132,9 @@ html {
         width: 80px;
         height: 80px;
     }
-}
+} */
 
 .header-image {
-    /* position: relative;
-  top: 50px; */
-    /* width: 90%;
-  border-color: purple;
-  border-style: solid;
-  border-width: 1.5px; */
     width: 120px;
 }
 
