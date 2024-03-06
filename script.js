@@ -163,6 +163,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 function handleNextBtn(phase) {
     if (phase === 1) {
+
+        // TODO Verify that all notes have been placed on the whiteboard
+
+        // disable the next button
+        document.getElementById("phase1-next").disabled = true;
+
+        // Set the phase 1 loading spinner to visible
+        document.getElementById("phase1-loader").style.display = "block";
+
+
         // Submit the note scores to the server
         console.log("noteScores:", noteScores);
 
@@ -193,10 +203,6 @@ function handleNextBtn(phase) {
                 // Update the div with the new sessionId
                 console.log("response: ", json);
                 console.log("Continue to results");
-
-                // Redirect to results page
-                // window.location.href = `https://jackliddy.github.io/R2R-activity-1-3/results.html?sessionId=${currentSessionID}`;
-                // window.location.href = `http://127.0.0.1:5501/R2R-activity-1-3%20V2/results.html?sessionId=${currentSessionID}`;
             })
             .then(() => {
                 // Fetch the note scores from the server
@@ -205,11 +211,12 @@ function handleNextBtn(phase) {
             .catch((error) => {
                 console.log(error);
                 alert("There was an error submitting your answer.");
+                document.getElementById("phase1-next").disabled = false;
             });
 
         // Hide phase 1 and show phase 2
-        document.getElementById("phase1").style.display = "none";
-        document.getElementById("phase2").style.display = "block";
+        // document.getElementById("phase1").style.display = "none";
+        // document.getElementById("phase2").style.display = "block";
     } else if (phase === 2) {
         document.getElementById("phase2").style.display = "none";
         document.getElementById("phase3").style.display = "block";
@@ -444,6 +451,13 @@ function fetchNoteScores(sessionId) {
                 // Trigger the click event on the first note
                 firstNote.click();
             }
+
+        // Set the phase 1 loading spinner to invisible
+        document.getElementById("phase1-loader").style.display = "none";
+
+        // Hide phase 1 and show phase 2
+        document.getElementById("phase1").style.display = "none";
+        document.getElementById("phase2").style.display = "block";
         });
 }
 
@@ -566,4 +580,4 @@ var noteSolutions = {
 };
 
 // call handleNextBtn manually to populate phase 2
-handleNextBtn(1);
+// handleNextBtn(1);

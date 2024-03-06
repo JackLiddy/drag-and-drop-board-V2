@@ -6,29 +6,15 @@
 <title>Activity 1.3</title>
 <link rel="stylesheet" href="styles.css">
 
-<!-- add indie flower font -->
+<!-- indie flower font -->
 <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
-<!-- Add font inter -->
+<!-- inter font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 </head>
 <body>
 
-  <!-- 
-
-    Activity 1.3 - Drag and Drop Whiteboard
-
-    This activity is designed to be a simple drag and drop activity that allows users to place sticky notes on a whiteboard.
-
-    Phase 1:
-    The sticky notes are initially placed in a carousel. Users can drag the sticky notes from the carousel and place them on the whiteboard.
-    If all the sticky notes are placed on the whiteboard, the "Next" button becomes active.
-    Upon clicking the "Next" button, the sticky notes are collected and the user is taken to Phase 2.
-  
-    Phase 2:
-
-
-   -->
+  <!--Activity 1.3 - Drag and Drop Whiteboard-->
 
 <div class="activity-frame">
 
@@ -61,14 +47,16 @@
           <button class="carousel-button next" onclick="moveSlide(1)">&#62;</button>
         </div>
       </div>
-  
+      <!-- <div class="loader"></div>  -->
+      <!-- <div class="loader"></div>  -->
       <div class="whiteboard">
+        <div class="loader" id="phase1-loader"></div> 
         <!-- Notes dropped here will be added dynamically with JavaScript -->
       </div>
   
       <div class="button-row">
         <button class="button" onclick="collapse()">Collapse</button>
-        <button class="button" onclick="handleNextBtn(1)">Next</button>
+        <button class="button" onclick="handleNextBtn(1)" id="phase1-next">Next</button>
       </div>
     </div>
   
@@ -152,10 +140,6 @@
     </div>
 
   </div>
-
-
-
-
 </div>
 
 
