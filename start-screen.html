@@ -5,17 +5,28 @@
     <!-- Modern styling for this widget -->
     <style>
 
+        html{
+            /* display: flex; */
+            /* align-items: center; */
+            /* justify-content: center; */
+            /* height: 100vh; */
+            /* height: 400px; */
+            /* width: 400px; */
+        }
+
         body {
             margin: 0;
             padding: 0;
             font-family: 'Inter', sans-serif;
             display: flex;
-            align-items: center;
+            /* align-items: center; */
             justify-content: center;
             height: 100vh;
             width: 100vw;
             background-color: transparent;
             /* background-color: black; temp */
+            /* height: 400px; */
+            /* width: 400px; */
         }
         .widget-container {
             display: flex;
@@ -24,7 +35,7 @@
             justify-content: space-evenly;
             /* height: 100vh; */
             background-color: #171819;
-            height: 85vh;
+            height: 50vh;
             width: 85vw;
             border-color: #854ABE;
             border-radius: 10px;
@@ -60,6 +71,10 @@
         button:hover {
             background-color: #a4672d;
         }
+        .start-screen-img {
+            width: 300px;
+            height: 300px;
+        }
     </style>
 </head>
 <body>
@@ -75,10 +90,15 @@
 
      <div class="widget-container">
         <h1>Activity 1.3</h1>
+        <!-- SVG here-->
+        <!-- <img src="dino1.svg" alt="Raven logo" class="start-screen-img"> -->
         <div class="initial-screen">
+            <img src="dino1.svg" alt="Raven logo" class="start-screen-img">
             <button id="start-activity" onclick="checkCurrentSession()">Start Activity</button>
         </div>
         <div class="link-screen">
+            <!-- Button to open in same tab -->
+            <button id="open-activity">Open activity</button>
             <button id="open-new-tab">Open activity in new tab</button>
             <button id="copy-link">Copy link to clipboard</button>
             <div id="qrcode"></div>
@@ -94,9 +114,20 @@
 
      <!-- QR code library -->
      <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
-    <script>
+     <script>
 
+        // Github pages url: https://jackliddy.github.io/R2R-activity-1-3-V2/index.html
         // Use http://127.0.0.1:5500/index.html?sessionID= as the link to the activity
+        let localURL = 'http://127.0.0.1:5500/index.html?sessionID='
+        let githubURL = 'https://jackliddy.github.io/R2R-activity-1-3-V2/index.html?sessionID='
+        let url = '';
+        let dev = false;
+        if (dev) {
+            url = localURL;
+        } else {
+            url = githubURL;
+        }
+
 
         // let currentSessionID = null;
 
@@ -105,14 +136,17 @@
             // Check if a session is active
             if (sessionStorage.getItem('sessionID') === null) {
                 // If so, utilize the active sessionID
-                let sessionID = sessionStorage.getItem('sessionID');
-                loadLinkPage(sessionID);
+                // If not, create a new sessionID
+                newSessionID = Math.floor(10000000 + Math.random() * 90000000);
+                loadLinkPage(newSessionID);
+
+                // gemerate random 8 digit number
+                // let sessionID = Math.floor(10000000 + Math.random() * 90000000);
             } 
             else {
-                // If not, create a new sessionID
-                newSessionID = Math.random().toString(36).substring(7);
-                loadLinkPage(newSessionID);
-                // sessionID = sessionStorage.getItem('sessionID');
+                // If so, utilize the active sessionID
+                let sessionID = sessionStorage.getItem('sessionID');
+                loadLinkPage(sessionID);
             }           
         }
 
@@ -121,16 +155,24 @@
             // Generate buttons that link to the activity in new tab, and copy link to clipboard, and a QR code that links to the activity
             // At the end, hide the previous page and show the link page
 
+            // Handler for opening the activity in the same tab
+            document.getElementById('open-activity').addEventListener('click', function() {
+                // Open the activity in the same tab
+                window.location.href = url + currentSessionID;
+            });
+
             // Open activity in new tab button
             document.getElementById('open-new-tab').addEventListener('click', function() {
                 // Open the activity in a new tab
-                window.open('http://127.0.0.1:5500/index.html?sessionID=' + currentSessionID);
+                
+                window.open(url + currentSessionID);
+
             });
 
             // Copy link to clipboard button
             document.getElementById('copy-link').addEventListener('click', function() {
                 // Copy the link to the clipboard
-                var link = 'http://127.0.0.1:5500/index.html?sessionID=' + currentSessionID;
+                var link = url + currentSessionID;
                 var textArea = document.createElement("textarea");
                 textArea.value = link;
                 document.body.appendChild(textArea);
@@ -146,7 +188,7 @@
             });
 
             // Set the QR code to link to the activity
-            qrcode.makeCode('http://127.0.0.1:5500/index.html?sessionID=' + currentSessionID);
+            qrcode.makeCode(url + currentSessionID);
 
             // Hide the initial screen
             document.querySelector('.initial-screen').style.display = 'none';
@@ -159,3 +201,4 @@
 
 </body>
 </html>
+

@@ -178,11 +178,11 @@ function handleNextBtn(phase) {
         // TODO: uncomment
         // Verify that all notes have been placed on the whiteboard
         // If not, display an error message and return
-        // const whiteboard = document.querySelector(".whiteboard");
-        // if (whiteboard.children.length < 8) {
-        //     alert("Please place all notes on the whiteboard.");
-        //     return;
-        // }
+        const whiteboard = document.querySelector(".whiteboard");
+        if (whiteboard.children.length < 8) {
+            alert("Please place all notes on the whiteboard.");
+            return;
+        }
 
         // disable the next button
         document.getElementById("phase1-next").disabled = true;
@@ -411,7 +411,8 @@ function fetchNoteScores(sessionId) {
                     note.className = "vertical-note";
                     note.textContent = content;
 
-                    note.addEventListener("click", function () {
+                    // On mouse hover
+                    note.addEventListener("mouseenter", function () {
                         // Clear the note preview
                         notePreview.textContent = "";
 
