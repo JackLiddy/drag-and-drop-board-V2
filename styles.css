@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    /* max-height: 100vh; */
 }
 
 body,
@@ -7,6 +8,12 @@ html {
     margin: 0;
     padding: 0;
     background-color: #181818;
+    /* height: 100vh; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* max-height: 100vh; */
 }
 
 .activity-frame {
@@ -18,7 +25,8 @@ html {
     background-color: #181818;
     /* border */
     align-items: center;
-    width: 90%;
+    /* width: 40%; */
+    max-width: 100vw;
 }
 
 .activity-header {
@@ -50,6 +58,7 @@ html {
     border-radius: 10px;
     border-style: solid;
     height: fit-content;
+    width: 80%;
 }
 .header-text {
     display: flex;
@@ -60,14 +69,14 @@ html {
     font-weight: 400;
     h3 { 
       /* font-size: 24px; */
-      font-size: calc(8px + 2vw);
+      font-size: calc(18px + 0.6vw);
       /* font-size: 1em; */
       color: black;
       font-weight: bold;
       margin: 2px;
     }
     p {
-      font-size: calc(8px + 1vw);
+      font-size: calc(8px + 0.6vw);
       
 
       color: black;
@@ -124,6 +133,7 @@ html {
     width: 95%;
     /* padding: 20px; */
     /* margin: 20px; */
+    width: 60%;
 }
 
 .activity-body {
@@ -285,7 +295,8 @@ html {
 .button-row {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    /* margin-top: 20px; */
+    margin-bottom: 15px;
 }
 .button-row button {
     margin: 0 10px;
@@ -322,6 +333,8 @@ html {
     width: 100%;
     background-color: #181818;
     color: #fff;
+
+    align-items: flex-start;
 }
 
 .phase2-left {
@@ -369,6 +382,18 @@ html {
     gap: 10px;
 }
 #phase2-sticky-notes-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: #181818;
+    color: #fff;
+    gap: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#phase3-sticky-notes-container {
     display: flex;
     flex-direction: column;
     align-items: center;

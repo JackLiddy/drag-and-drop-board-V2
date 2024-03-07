@@ -457,7 +457,7 @@ function fetchNoteScores(sessionId) {
                             const x = 50 + noteScore[content].impact * 5;
                             const y = 50 + noteScore[content].interest * 5;
                             note.style.left = `${x}%`;
-                            note.style.top = `${y}%`;
+                            note.style.top = `${100-y}%`;
 
                             whiteboard.appendChild(note);
                         });
