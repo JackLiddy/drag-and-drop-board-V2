@@ -31,6 +31,17 @@ let noteScoresArray = [];
 // Test session ID
 let currentSessionID = "543";
 
+// Get the session ID from the URL parameter
+// http://127.0.0.1:5500/index.html?sessionID=bdaq4
+const urlParams = new URLSearchParams(window.location.search);
+const sessionID = urlParams.get("sessionID");
+console.log("sessionID", sessionID);
+
+if (sessionID) {
+    currentSessionID = sessionID;
+}
+
+
 // Populate the carousel with notes
 document.addEventListener("DOMContentLoaded", () => {
     const carouselTrack = document.querySelector(".carousel-track");
@@ -597,3 +608,8 @@ var noteSolutions = {
 
 // call handleNextBtn manually to populate phase 2
 // handleNextBtn(1);
+// wait 3 seconds and call handleNextBtn to populate phase 3
+// setTimeout(() => {
+//     handleNextBtn(2);
+// }
+// , 6000);

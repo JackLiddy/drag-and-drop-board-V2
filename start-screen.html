@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Start Screen</title>
+    <!-- Modern styling for this widget -->
+    <style>
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+            background-color: transparent;
+            background-color: black; /* temp */
+        }
+        .widget-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+            /* height: 100vh; */
+            background-color: #171819;
+            height: 85vh;
+            width: 85vw;
+            border-color: #854ABE;
+            border-radius: 10px;
+            border-style: solid;
+            border-width: 3px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+        .initial-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .link-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            background-color: #DD8B3C;
+            color: #6E2E14;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #a4672d;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        This is the start screen of the activity. 
+        There will be a start activity button that will check if a session is active.
+        If a session is active, it will utilize that sessionID.
+        Otherwise, it will create a new sessionID.
+
+        Next, two buttons will appear on the screen: 'Open activity in new tab' and 'Copy link to clipboard'
+        Below these buttons, there will be a QR code that will link to the activity.
+     -->
+
+     <div class="widget-container">
+        <h1>Activity 1.3</h1>
+        <div class="initial-screen">
+            <button id="start-activity" onclick="checkCurrentSession()">Start Activity</button>
+        </div>
+        <div class="link-screen">
+            <button id="open-new-tab">Open activity in new tab</button>
+            <button id="copy-link">Copy link to clipboard</button>
+            <div id="qrcode"></div>
+
+            <!-- TODO: Add 'already have a session code? Click here for manual entry' -->
+
+
+        </div>
+    </div> 
+
+
+
+
+     <!-- QR code library -->
+     <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <script>
+
+        // Use http://127.0.0.1:5500/index.html?sessionID= as the link to the activity
+
+        // let currentSessionID = null;
+
+        function checkCurrentSession() {
+            console.log('checking session');
+            // Check if a session is active
+            if (sessionStorage.getItem('sessionID') === null) {
+                // If so, utilize the active sessionID
+                let sessionID = sessionStorage.getItem('sessionID');
+                loadLinkPage(sessionID);
+            } 
+            else {
+                // If not, create a new sessionID
+                newSessionID = Math.random().toString(36).substring(7);
+                loadLinkPage(newSessionID);
+                // sessionID = sessionStorage.getItem('sessionID');
+            }           
+        }
+
+        function loadLinkPage(currentSessionID) {
+            // Load the link page
+            // Generate buttons that link to the activity in new tab, and copy link to clipboard, and a QR code that links to the activity
+            // At the end, hide the previous page and show the link page
+
+            // Open activity in new tab button
+            document.getElementById('open-new-tab').addEventListener('click', function() {
+                // Open the activity in a new tab
+                window.open('http://127.0.0.1:5500/index.html?sessionID=' + currentSessionID);
+            });
+
+            // Copy link to clipboard button
+            document.getElementById('copy-link').addEventListener('click', function() {
+                // Copy the link to the clipboard
+                var link = 'http://127.0.0.1:5500/index.html?sessionID=' + currentSessionID;
+                var textArea = document.createElement("textarea");
+                textArea.value = link;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            });
+
+            // Create a new QR code
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                width: 200,
+                height: 200
+            });
+
+            // Set the QR code to link to the activity
+            qrcode.makeCode('http://127.0.0.1:5500/index.html?sessionID=' + currentSessionID);
+
+            // Hide the initial screen
+            document.querySelector('.initial-screen').style.display = 'none';
+            // Show the link screen
+            document.querySelector('.link-screen').style.display = 'flex';
+
+        }
+
+    </script>
+
+</body>
+</html>

@@ -23,21 +23,10 @@ html {
 
 .activity-header {
     display: flex;
-    /* align-items: center; */
-    /* justify-content: space-between; */
-    /* width: 100%; */
-    /* padding: 20px; */
     background-color: white;
 }
 
 .header {
-    /* position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 50px;
-  background: white;
-  z-index: 100; */
     background-color: white;
     border-color: #854abe;
     border-width: 10px;
@@ -67,17 +56,6 @@ html {
     flex-direction: column;
     padding: 10px;
     justify-content: flex-start;
-    /* margin-left: 22px; */
-    /* margin-right: 12px; */
-    /* gap: 10px; */
-    /* position: relative;
-  top: 50px; */
-    /* width: 90%;
-  border-color: purple;
-  border-style: solid;
-  border-width: 1.5px; */
-    /* font-size: 16px; */
-    /* use font inter */
     font-family: "Inter", sans-serif;
     font-weight: 400;
     h3 { 
@@ -89,9 +67,6 @@ html {
       margin: 2px;
     }
     p {
-      /* font-size: 16px; */
-      /* font-size: 1.5vw; */
-      /* more accessible font size */
       font-size: calc(8px + 1vw);
       
 
@@ -154,17 +129,10 @@ html {
 .activity-body {
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
-    /* justify-content: center; */
-    /* height: 100%; */
-    /* color: #fff; */
-    /* background-color: #181818; */
 }
 
 .carousel-container {
     position: relative;
-    /* max-width: 100%; */
-    /* min-width: 100%; */
     width: 95%;
     margin: auto;
     margin-top: 15px;
@@ -586,6 +554,7 @@ html {
     background-color: #181818;
     color: #fff;
     margin: 14px;
+    width: 65%;
 }
 #phase3-sticky-notes {
     display: flex;
@@ -610,11 +579,13 @@ html {
     background-color: white;
     color: #181818;
     width: 100%;
-    height: 60%;
+    /* height: 60%; */
     border-radius: 10px;
     padding-top: 20px;
     padding-bottom: 29px;
     font-family: "Inter", sans-serif;
+    height: fit-content;
+
 }
 #word-list {
     display: flex;
@@ -624,9 +595,13 @@ html {
     align-items: flex-start;
     /* background-color: #181818; */
     /* color: #fff; */
-    gap: 10px;
+    /* gap: 10px; */
     width: 20%;
     margin: 10px;
+    span {
+        font-size: calc(8px + 1vw);
+    }
+    /* gap: auto; */
 }
 #resource-content {
     display: flex;
